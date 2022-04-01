@@ -28,8 +28,8 @@ public class LobbyManager : MonoBehaviour
 
     //사운드 판넬 관련 변수
     [Header("SoundPanel")]
-    public Button m_SoundBtn = null;
-    public GameObject m_SoundUI = null;
+    public Button m_SoundBtn = null;            //사운드 버튼
+    public GameObject m_SoundUI = null;         //사운드 UI
 
     public GUISkin mySkin = null; // Asset - Create - GUI Skin 생성 후 만들어진 파일에 폰트를 넣어준다.
 
@@ -139,7 +139,7 @@ public class LobbyManager : MonoBehaviour
             {
                 Time.timeScale = 1;
             }
-        }
+        }//if (Input.GetKeyDown(KeyCode.Escape))
     }
 
     //랭킹을 띄워주는 코루틴 함수
@@ -147,7 +147,7 @@ public class LobbyManager : MonoBehaviour
     {
         if (GlobalValue.g_Unique_ID == "")
             yield break;
-        
+
         WWWForm form = new WWWForm();
         form.AddField("Input_user", GlobalValue.g_Unique_ID, System.Text.Encoding.UTF8);
         var webRequest = new WWW(MyScoreUrl, form);
@@ -168,9 +168,7 @@ public class LobbyManager : MonoBehaviour
         {
             Debug.Log("Error : " + webRequest.error);
         }
-
     }
-
 
     //점수를 표시하는 함수
     void RecRankList_MyRank(string strJsonData)
@@ -193,14 +191,13 @@ public class LobbyManager : MonoBehaviour
             a_UserNd.m_ID = userID;
             a_UserNd.m_Nick = nick_name;
             a_UserNd.m_BestScore = best_score;
-            
+
             m_RkList.Add(a_UserNd);
-
         }//for (int i = 0; i < N["RkList"].Count; i++)
-
         m_My_Rank = N["my_rank"].AsInt;
     }
 
+    //GUI출력
     private void OnGUI()
     {
         GUI.skin = mySkin;  //내가 만든 GUI스킨을 적용한다

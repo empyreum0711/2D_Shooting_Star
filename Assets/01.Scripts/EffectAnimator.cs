@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class EffectAnimator : MonoBehaviour
 {
-    int maxFrameNum;
+    int maxFrameNum;        //프레임의 최대수
 
     [SerializeField]
-    Sprite[] aniSprites;
+    Sprite[] aniSprites;    //애니메이션에 사용될 스프라이트의 배엻
 
-    SpriteRenderer renderer;
-
-    [SerializeField]
-    float aniSpeed;
-
-    float curTime;
+    SpriteRenderer renderer;    //바꿔줄 스프라이트의 랜더러
 
     [SerializeField]
-    int frameIndex = 0;
+    float aniSpeed;         //이펙트의 재생속도
+
+    float curTime;          //진행되는 시간
 
     [SerializeField]
-    bool isLoop;
+    int frameIndex = 0;     //프레임의 갯수
+
+    [SerializeField]
+    bool isLoop;            //반복중인지
 
 
     // Start is called before the first frame update
@@ -30,7 +30,6 @@ public class EffectAnimator : MonoBehaviour
         maxFrameNum = aniSprites.Length;
 
         frameIndex = 0;
-
     }
 
     // Update is called once per frame
@@ -52,8 +51,7 @@ public class EffectAnimator : MonoBehaviour
                 {
                     frameIndex = 0;
                 }
-
-            }
+            }//if (isLoop == true)//반복되는 애니메이션일때
             else
             {
                 if(frameIndex < maxFrameNum)
@@ -67,9 +65,7 @@ public class EffectAnimator : MonoBehaviour
                 {
                     Destroy(gameObject);
                 }
-            }
-
+            }//if (isLoop == false)//반복되는 애니메이션이 아닐때
         }
-
     }
 }

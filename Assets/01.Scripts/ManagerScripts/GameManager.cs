@@ -9,30 +9,30 @@ public class GameManager : MonoBehaviour
 {
     static GameManager m_instance; //private변수
 
-    public bool isGameOver;
+    public bool isGameOver;         //게임오버 여부
 
-    int score;
-    int point;
+    int score;                      //플레이어의 최고 점수
+    int point;                      //플레이어의 최고 포인트
 
-    int playerLife = 0;
+    int playerLife = 0;             //플레이어의 라이프
 
-    [SerializeField] GameObject playerPrefab;
+    [SerializeField] GameObject playerPrefab;   //플레이어 오브젝트
 
-    [SerializeField] Texture2D[] numTextures = new Texture2D[10];
-    [SerializeField] Image lifeNumImage;
-    [SerializeField] Text scoreText;
-    [SerializeField] Text MyPointTxt;
-    [SerializeField] GameObject gameOverUI;
+    [SerializeField] Texture2D[] numTextures = new Texture2D[10];       //라이프 숫자이미지를 교체할 이미지의 배열
+    [SerializeField] Image lifeNumImage;                                //라이프 숫자이미지
+    [SerializeField] Text scoreText;                                    //스코어 텍스트
+    [SerializeField] Text MyPointTxt;                                   //포인트 텍스트
+    [SerializeField] GameObject gameOverUI;                             //게임오버UI
+        
+    string UpdateUrl;                                                   //Update Php서버 Url주소
 
-    string UpdateUrl;
+    bool m_PauseOnOff = false;                                          //Pause상태체크
 
-    bool m_PauseOnOff = false;
-
-    [SerializeField] GameObject m_PauseUI = null;
-    [SerializeField] Button m_PauseRSBtn = null;
-    [SerializeField] Button m_PauseLobbyBtn = null;
-    [SerializeField] Button m_GameOverRSBtn = null;
-    [SerializeField] Button m_GameOveLobbyBtn = null;
+    [SerializeField] GameObject m_PauseUI = null;                       //Pause상태일 때 나오는 UI
+    [SerializeField] Button m_PauseRSBtn = null;                        //Pause의 리스타트 버튼
+    [SerializeField] Button m_PauseLobbyBtn = null;                     //Pause의 로비 버튼
+    [SerializeField] Button m_GameOverRSBtn = null;                     //게임오버일때 리스타트 버튼
+    [SerializeField] Button m_GameOveLobbyBtn = null;                   //게임오버일때 로비 버튼
 
     private void Awake() //Start이전에 실행이되는 함수
     {

@@ -19,7 +19,6 @@ public class PlayerCtrl : MonoBehaviour
     GameObject bulletPrefab;
 
     public float hp;
-    //public int Damage = 10;
     SpriteRenderer renderer;
 
     [SerializeField]
@@ -43,7 +42,7 @@ public class PlayerCtrl : MonoBehaviour
 
         renderer = GetComponent<SpriteRenderer>();
 
-       
+
         StartCoroutine(Rebirth());
 
         hp = GlobalValue.g_PlayerHp;
@@ -61,7 +60,7 @@ public class PlayerCtrl : MonoBehaviour
     {
         int count = 0;
 
-        while(count < 10)
+        while (count < 10)
         {
             count++;
 
@@ -80,19 +79,17 @@ public class PlayerCtrl : MonoBehaviour
     //플레이어가 공격
     void Fire()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             SoundManager.Instance.PlayEffSound("gun");
-                //Bullet생성 및 셋팅
-                //GameObject bullet = Instantiate(bulletPrefab);
-                GameObject bullet = PoolingManager.Instance.GetObject(bulletPrefab.name);
+            //Bullet생성 및 셋팅
+            GameObject bullet = PoolingManager.Instance.GetObject(bulletPrefab.name);
 
-                bullet.transform.position = transform.position; //위치 설정
+            bullet.transform.position = transform.position; //위치 설정
 
-                float angle = 90f;
-                bullet.GetComponent<Bullet>().SetBullet(angle, true);                    
+            float angle = 90f;
+            bullet.GetComponent<Bullet>().SetBullet(angle, true);
         }
-
     }
 
     //플레이어의 움직임
@@ -104,11 +101,9 @@ public class PlayerCtrl : MonoBehaviour
         transform.Translate(moveVector * speed * Time.deltaTime, Space.World);
 
         //Clamp이용하기 (최솟값 또는 최대값으로 자르는 함수)
-        setPos.Set(
-            Mathf.Clamp(transform.position.x, leftBorder.x, RightBorder.x),
-            Mathf.Clamp(transform.position.y, leftBorder.y, RightBorder.y),
-            0
-            );
+        setPos.Set(Mathf.Clamp(transform.position.x, leftBorder.x, RightBorder.x),
+            Mathf.Clamp(transform.position.y, leftBorder.y, RightBorder.y), 0);
+
         transform.position = setPos;
     }
 
@@ -123,12 +118,13 @@ public class PlayerCtrl : MonoBehaviour
         m_PlayerHpbar.fillAmount = hp / GlobalValue.g_PlayerHp;
 
         renderer.color = color;
+        //0.1초 간격으로 색상을 변경
         Invoke("ReturnColor", 0.1f);
 
         if (hp <= 0)
         {
             isDead = true;
-           
+
             GM.LoseLife();
             GameObject boom = Instantiate(boomPrefab); //폭발 이펙트 생성
             boom.transform.position = transform.position;
@@ -137,7 +133,6 @@ public class PlayerCtrl : MonoBehaviour
 
             Destroy(gameObject);
         }
-
         return true;
     }
 

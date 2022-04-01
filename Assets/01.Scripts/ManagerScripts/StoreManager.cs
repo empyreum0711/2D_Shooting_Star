@@ -7,23 +7,24 @@ using SimpleJSON;
 
 public class StoreManager : MonoBehaviour
 {
-    private string g_Message = "";
-    public Button m_GoLobby = null;
-    public GameObject PanelRoot;
-    ItemNodeCtrl[] m_CrNodeList;
-    public Text m_MyPoint = null;
+    private string g_Message = "";          //GUI메세지 출력용 변수
+
+    public Button m_GoLobby = null;         //로비로 가는 버튼
+    public GameObject PanelRoot;            //상점의 판넬
+    ItemNodeCtrl[] m_CrNodeList;            //아이템의 리스트
+    public Text m_MyPoint = null;           //나의 포인트
     //public Text[] ItemPriceText = null;
 
     //-- 지금 뭘 구입하려고 시도한 건지?
-    CharType m_BuyCrType;
+    CharType m_BuyCrType;       //아이템의 번호
     string m_SvStrJson = ""; //서버에 전달하려고 하는 JSON형식이 뭔지?
     int m_SvMyPoint = 0;  //서버에 전달하려고 하는 차감된 내포인트가 얼마인지?
     //-- 지금 뭘 구입하려고 시도한 건지?
 
-    string BuyRequestUrl;
-    string SpecUpUrl;
+    string BuyRequestUrl;           //아이템을 구입할경우 서버에 저장하는 Url
+    string SpecUpUrl;               //구매한 아이템을 플레이어에게 적용하는 Php서버 Url
 
-    float m_Delay = 0.0f;
+    float m_Delay = 0.0f;           //구매시 서버에 동기화 하는 시간을 위한 딜레이
 
     //ESC를 눌렀을때...
     bool m_EscOnOff = false;
@@ -31,17 +32,18 @@ public class StoreManager : MonoBehaviour
     [SerializeField] Button m_ContinueBtn = null;
     [SerializeField] Button m_ExitBtn = null;
 
-    public GUISkin mySkin = null;
+    public GUISkin mySkin = null; // Asset - Create - GUI Skin 생성 후 만들어진 파일에 폰트를 넣어준다.
 
     // Start is called before the first frame update
     void Start()
     {
         GlobalValue.InitData();
 
-        CharInfo charInfo;
+        //CharInfo charInfo;
 
         m_MyPoint.text = "" + GlobalValue.g_MyPoint;
 
+        //로비로 가는 버튼을 눌렀을 때
         if (m_GoLobby != null)
             m_GoLobby.onClick.AddListener(() =>
             {
@@ -49,6 +51,7 @@ public class StoreManager : MonoBehaviour
                 UnityEngine.SceneManagement.SceneManager.LoadScene("LobbyScene");
             });
 
+        //Esc를 눌렀을 때 나오는 컨티뉴 버튼을 눌렀을 때
         if (m_ContinueBtn != null)
             m_ContinueBtn.onClick.AddListener(() =>
             {
@@ -57,6 +60,7 @@ public class StoreManager : MonoBehaviour
                 Time.timeScale = 1;
             });
 
+        //Esc를 눌렀을 때 나오는 Exit버튼을 눌렀을 때
         if (m_ExitBtn != null)
             m_ExitBtn.onClick.AddListener(() =>
             {
@@ -73,8 +77,9 @@ public class StoreManager : MonoBehaviour
     void Update()
     {
         if (0.0f < m_Delay)
-            m_Delay = m_Delay - Time.deltaTime;
+            m_Delay -= Time.deltaTime;
 
+        //Esc를 눌렀을 때
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SoundManager.Instance.PlayGUISound("Pop");
@@ -88,17 +93,17 @@ public class StoreManager : MonoBehaviour
             {
                 Time.timeScale = 1;
             }
-        }
+        }//if (Input.GetKeyDown(KeyCode.Escape))
     }
-    public void TryBuyCrItem(CharType a_ChType)
-    {//리스트뷰에 있는 캐릭터 가격버튼을 눌러 구입시도를 한 경우
 
+    //리스트뷰에 있는 캐릭터 가격버튼을 눌러 구입시도를 한 경우
+    public void TryBuyCrItem(CharType a_ChType)
+    {
         if (0.0f < m_Delay)
         {
             g_Message = "잠시 후 다시 시도해 주세요.";
             return;
         }
-
 
         if (GlobalValue.m_CrDataList.Count <= (int)a_ChType)
             return;
@@ -134,11 +139,10 @@ public class StoreManager : MonoBehaviour
             a_CacLevel = a_CrInfo.m_Count;
             if (ii == (int)m_BuyCrType && a_CrInfo.m_Count < 5) //구매 조건 체크
             {
-                int a_Cost = a_CrInfo.m_Price + (a_CrInfo.m_Price * a_CrInfo.m_Count);//
+                int a_Cost = a_CrInfo.m_Price + (a_CrInfo.m_Price * a_CrInfo.m_Count);
 
                 if (a_Cost <= GlobalValue.g_MyPoint)
                 {
-                    //GlobalValue.g_MyPoint -= a_Cost; //서버로부터 응답을 받은 다음에 차감해 준다.
                     m_SvMyPoint = GlobalValue.g_MyPoint;
                     m_SvMyPoint -= a_Cost;  //서버로부터 응답을 받은 다음에 차감해 준다.
                     a_CacLevel++;
@@ -172,6 +176,7 @@ public class StoreManager : MonoBehaviour
             StartCoroutine(BuyRequestCo());
     }
 
+    //서버에 구매 요청
     IEnumerator BuyRequestCo()
     {
         if (m_SvStrJson == "")
@@ -205,15 +210,12 @@ public class StoreManager : MonoBehaviour
             GlobalValue.m_CrDataList[(int)m_BuyCrType].m_Count++; //갱신필요
 
             //매뉴상태를 갱신해 주어야 한다.
-
             RenewCrItemList();
             m_MyPoint.text = GlobalValue.g_MyPoint.ToString();
-        }
-
-        //g_Message = webRequest.text; //<--어차피 영문만 나온다.
-
-        //yield return null;
+        }//if (a_ReStr.Contains("UpDateSuccess~") == true)
     }
+
+    //아이템을 구매한 갯수와 구매, 구매여부등을 관리하는 함수
     void RenewCrItemList()
     {
         if (PanelRoot != null)
@@ -232,8 +234,9 @@ public class StoreManager : MonoBehaviour
                                       GlobalValue.m_CrDataList[ii].m_Count);
 
         }//for(int ii = 0; ii < GlobalValue.m_CrDataList.Count; ii++)
-
     }
+
+    //서버에 아이템을 적용함
     IEnumerator UpdateSpecCo()
     {
         if (GlobalValue.g_Unique_ID == "")
@@ -257,10 +260,9 @@ public class StoreManager : MonoBehaviour
         {
             Debug.Log("UpdateScoreSuccess");
         }
-
-
     }
 
+    //GUI출력
     private void OnGUI()
     {
         GUI.skin = mySkin;  //내가 만든 GUI스킨을 적용한다

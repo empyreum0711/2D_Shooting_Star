@@ -13,7 +13,7 @@ using System.Security.Cryptography.X509Certificates;
 
 public class TitleMgr : MonoBehaviour
 {
-    public string g_Message = "";
+    public string g_Message = "";                   //GUI메세지 출력용 변수
 
     [Header("LoginPanel")]
     public GameObject m_LoginPanel = null;          //로그인 Panel
@@ -334,7 +334,7 @@ public class TitleMgr : MonoBehaviour
         StartCoroutine(DelteCo());
     }
 
-    //#if UNITY_EDITOR
+    //GUI출력
     void OnGUI()
     {
         GUI.skin = mySkin;  //내가 만든 GUI스킨을 적용한다
@@ -344,9 +344,7 @@ public class TitleMgr : MonoBehaviour
             GUILayout.Label("<color=White><size=25>" + g_Message + "</size></color>");
         }
     }
-    //#endif
 
-  
     //계정삭제를 하는 코루틴 함수
     IEnumerator DelteCo()
     {

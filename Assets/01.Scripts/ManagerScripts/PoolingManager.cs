@@ -5,9 +5,8 @@ using UnityEngine;
 [System.Serializable] //인스펙터창에서 관리를 가능하게 해준다.
 public struct PoolingInfo
 {
-    public GameObject prefab;
-    public int count;
-    
+    public GameObject prefab;   //사용할 오브젝트
+    public int count;           //사용할 숫자
 }
 
 public class PoolingManager : MonoBehaviour
@@ -16,6 +15,7 @@ public class PoolingManager : MonoBehaviour
     
     static PoolingManager m_instance;
 
+    
     static public PoolingManager Instance
     {
         get
@@ -27,6 +27,7 @@ public class PoolingManager : MonoBehaviour
         }
     }
 
+    //풀링할 오브젝트와 갯수
     [SerializeField] PoolingInfo[] poolingInfos;
 
 
@@ -42,6 +43,7 @@ public class PoolingManager : MonoBehaviour
         
     }
 
+    //처음 프리펩을 풀링하기위해 준비하는 함수
     void Initialize()
     {
         for(int i=0; i< poolingInfos.Length; i++)
@@ -55,13 +57,12 @@ public class PoolingManager : MonoBehaviour
 
                 list.Add(go);
             }
-
             string keyName = poolingInfos[i].prefab.name;
             poolingObjects.Add(keyName, list);
         }
-
     }
 
+    //오브젝트를 생성하는 함수
     public GameObject GetObject(string key)
     {
         List<GameObject> list = new List<GameObject>();
@@ -85,15 +86,9 @@ public class PoolingManager : MonoBehaviour
                 go.SetActive(false);
                 list.Add(go);
             }
-
             list[list.Count - 1].SetActive(true);
             return list[list.Count - 1];
-
         }
-
         return null;
-
-
     }
-
 }

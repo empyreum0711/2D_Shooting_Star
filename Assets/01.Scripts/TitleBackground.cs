@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class TitleBackground : MonoBehaviour
 {
-    float height;
+    float height;           //배경의 움직임이 끝나는 지점
 
     [SerializeField]
-    float speed = 5f;
+    float speed = 5f;       //속도
 
 
     // Start is called before the first frame update
@@ -19,8 +19,7 @@ public class TitleBackground : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        
+    { 
         transform.Translate(Vector2.down * speed * Time.deltaTime, Space.World);
 
         if (transform.position.y <= -height)
@@ -29,11 +28,11 @@ public class TitleBackground : MonoBehaviour
         }
     }
 
+    //위치 초기화
     void Reposition()
     {
         Vector3 offset = new Vector3(0, height * 2f - 1f);
 
         transform.position = transform.position + offset;
-
     }
 }

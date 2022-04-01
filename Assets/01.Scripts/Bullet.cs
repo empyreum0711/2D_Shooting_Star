@@ -5,25 +5,25 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField]
-    float angle;
+    float angle;            //총알의 각도
 
     [SerializeField]
-    float speed = 8f;
+    float speed = 8f;       //총알의 속도
 
-    Vector2 moveVector;
+    Vector2 moveVector;     //총알이 움직일 방향
 
-    Vector2 rightBorder;
-    Vector2 leftBorder;
+    Vector2 rightBorder;    //우측 상단의 지점
+    Vector2 leftBorder;     //좌측 하단의 지점
 
     bool isPlayerBullet = true; //적탄인지 플레이어탄인지에 대한 정보
 
     [SerializeField]
-    float damage;
+    float damage;           //데미지
 
     [SerializeField]
-    GameObject effectPrefab;
+    GameObject effectPrefab;    //폭발시 나오는 이펙트
 
-    bool isFired;
+    bool isFired;               //공격할 수 있는지의 여부
 
 
     private void OnEnable()
@@ -50,11 +50,10 @@ public class Bullet : MonoBehaviour
             || transform.position.y < leftBorder.y - 2f)
         {
             gameObject.SetActive(false);
-            //Destroy(gameObject);
         }
-
     }
 
+    //총알을 세팅하는 함수
     public void SetBullet(float angle, bool isPlayerBullet)
     {
         this.isPlayerBullet = isPlayerBullet;
@@ -85,9 +84,8 @@ public class Bullet : MonoBehaviour
                 enemy.OnDamaged(GlobalValue.g_Damage);//적한테 데미지를 입힌다
 
                 gameObject.SetActive(false);
-                //Destroy(gameObject);
             }
-        }
+        }//if (isPlayerBullet == true)//플레이어가 쏜 탄알일때
         else//적이 쏜 탄알일때
         {
             if (collision.CompareTag("Player"))
@@ -100,10 +98,8 @@ public class Bullet : MonoBehaviour
                     effect.transform.position = transform.position;
 
                     gameObject.SetActive(false);
-                    //Destroy(gameObject);
-                }
-               
+                }              
             }
-        }
+        }//if (isPlayerBullet == false)//적이 쏜 탄알일때
     }
 }

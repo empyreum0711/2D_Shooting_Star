@@ -39,6 +39,5 @@ public class BackgroundLooper : MonoBehaviour
         Vector3 offset = new Vector3(0, height * 2f - 1f);
 
         transform.position = transform.position + offset;
-
     }
 }

@@ -86,9 +86,10 @@ public class RankingManager : MonoBehaviour
             {
                 Time.timeScale = 1;
             }
-        }
+        }//if (Input.GetKeyDown(KeyCode.Escape))
     }
 
+    //서버의 저장된 정보를 불러옴
     IEnumerator GetScoreListCo()
     {
         if (GlobalValue.g_Unique_ID == "")
@@ -116,6 +117,8 @@ public class RankingManager : MonoBehaviour
             Debug.Log("Error : " + webRequest.error);
         }
     }
+
+    //나의 랭크를 확인
     void RecRankList_MyRank(string strJsonData)
     {
         m_RkList.Clear();
@@ -145,6 +148,7 @@ public class RankingManager : MonoBehaviour
         m_My_Rank = N["my_rank"].AsInt;
     }
 
+    //GUI출력
     private void OnGUI()
     {
         GUI.skin = mySkin;  //내가 만든 GUI스킨을 적용한다

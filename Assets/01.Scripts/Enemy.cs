@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-    float currentFireTime;
-
     [SerializeField]
     float reFireTime;           //공격의 텀
 
@@ -39,6 +37,7 @@ public class Enemy : MonoBehaviour
     GameManager GM;         //게임매니저
 
     int randomNum;          //어떤 패턴의 공격을 할지
+
     void Awake()
     {
         randomNum = Random.Range(0, 2);
@@ -68,7 +67,7 @@ public class Enemy : MonoBehaviour
                 {
                     StartCoroutine(Fire2());
                 }
-            }
+            }//if (gameObject.name == "Enemy")  //적이 Enemy의 이름을 가졌다면
             else                            //적이 Enemy2의 이름을 가졌다면
             {
                 if (randomNum == 0)
@@ -79,8 +78,8 @@ public class Enemy : MonoBehaviour
                 {
                     StartCoroutine(Fire4());
                 }
-            }
-        }
+            }//if (gameObject.name == "Enemy2")  //적이 Enemy2의 이름을 가졌다면
+        }//if (isFire == false && isCanFire == true)
     }
 
     //기본 공격 함수 ↓로만 공격
@@ -134,7 +133,6 @@ public class Enemy : MonoBehaviour
                 fireAngle += 10;
             }
         }
-
         fireAngle = 0;
 
         yield return new WaitForSeconds(reFireTime);
@@ -155,10 +153,7 @@ public class Enemy : MonoBehaviour
             FireBullet(fireAngle - 100f);
 
             yield return new WaitForSeconds(0.3f);
-
-
         }
-
         yield return new WaitForSeconds(2.0f);
 
         isFire = false;
@@ -179,7 +174,6 @@ public class Enemy : MonoBehaviour
         bullet.transform.position = transform.position;
 
         bullet.GetComponent<Bullet>().SetBullet(angle, false);
-
     }
 
     //적의 비행체가 피해를 입었을 때
@@ -196,7 +190,6 @@ public class Enemy : MonoBehaviour
         {
             isDead = true;
 
-            //GameManager.Instance.AddScore(score);
             GM.AddScore(score);
             GameObject boom = Instantiate(boomPrefab); //폭발 이펙트 생성
             boom.transform.position = transform.position;
@@ -204,12 +197,11 @@ public class Enemy : MonoBehaviour
             Camera.main.GetComponent<CameraShaker>().CameraShake(0.5f, 0.5f);
 
             Destroy(gameObject);
-        }
-        else
+        }//if (hp <= 0)
+        else//if (hp >= 0)
         {
             hpBar.fillAmount = hp / 100f;
         }
-
     }
 
     //색을 원래대로 바꿔는 함수

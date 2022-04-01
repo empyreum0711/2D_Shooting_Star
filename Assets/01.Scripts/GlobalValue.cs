@@ -29,7 +29,6 @@ public class GlobalValue
 
     public static List<CharInfo> m_CrDataList = new List<CharInfo>();
 
-
     //유저의 정보
     public static void InitData()
     {
@@ -44,13 +43,12 @@ public class GlobalValue
 
             a_CrItemNd.m_CrType = (CharType)ii;
 
-            if (ii == 0)
+            if (ii == 0)//체력아이템
                 a_CrItemNd.m_Price = 500; //기본가 + (구매수량 * 기본가)                   
-            else if (ii == 1)
+            else if (ii == 1)//공격력아이템
                 a_CrItemNd.m_Price = 1000; //기본가 + (구매수량 * 기본가) 
-            else if (ii == 2)
+            else if (ii == 2)//라이프아이템
                 a_CrItemNd.m_Price = 5000; //기본가 + (구매수량 * 기본가) 
-
 
             m_CrDataList.Add(a_CrItemNd);
         }

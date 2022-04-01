@@ -22,10 +22,10 @@ public class SoundManager : G_Singleton<SoundManager>
     [HideInInspector] public AudioSource[] m_sndSrcList = new AudioSource[10];  // 넉넉히 만들어 놓는다.
     private float[] m_EffVolume = new float[10];
 
-    [HideInInspector] public bool m_SoundOnOff = true;
-    [HideInInspector] public float m_SoundVolume = 1.0f;
+    [HideInInspector] public bool m_SoundOnOff = true;      //사운드 OnOff
+    [HideInInspector] public float m_SoundVolume = 1.0f;    //사운드 볼륨조절
 
-    AudioClip a_GAudioClip = null;
+    AudioClip a_GAudioClip = null;                          //재생할 오디오클립
 
 
 
