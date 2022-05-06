@@ -24,7 +24,7 @@ else
 {
     if($row = mysqli_fetch_assoc($check)) //user 이름에 해당하는 행을 모두 찾아준다.
     {    
-         mysqli_query($con, "UPDATE `SSDB` SET `best_score`= '".$score."' WHERE `user`= '".$user."' ");  //`user` 를 찾아서 `best_score`= '$score'로 변경하라는 듯 
+         mysqli_query($con, "UPDATE `SSDB` SET `best_score`= '".$score."' WHERE `user`= '".$user."' ");  //`user` 를 찾아서 `best_score`= '$score'로 변경하라는 뜻 
 	mysqli_query($con, "UPDATE `SSDB` SET `mypoint`= '".$point."' WHERE `user`= '".$user."' "); 
         echo ("UpDateSuccess~");
     }
